@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="java,正则表达式,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="_ 在程序开发中，难免会遇到需要匹配、查找、替换、判断字符串的情况发生，而这些情况有时又比较复杂，如果用纯编码方式解决，往往会浪费程序员的时间及精力。因此，学习及使用正则表达式，便成了解决这一矛盾的主要手段。_ java正则入门下面列举一些基础的概念  // 反斜杠 /t 间隔 (‘/u0009’)/n 换行 (‘/u000A’)/r 回车 (‘/u000D’)/d 数字 等价于[0-9]/D 非">
+<meta name="keywords" content="java,正则表达式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="http://hihuaning.com/2015/05/07/正则表达式/index.html">
+<meta property="og:site_name" content="Huaning">
+<meta property="og:description" content="_ 在程序开发中，难免会遇到需要匹配、查找、替换、判断字符串的情况发生，而这些情况有时又比较复杂，如果用纯编码方式解决，往往会浪费程序员的时间及精力。因此，学习及使用正则表达式，便成了解决这一矛盾的主要手段。_ java正则入门下面列举一些基础的概念  // 反斜杠 /t 间隔 (‘/u0009’)/n 换行 (‘/u000A’)/r 回车 (‘/u000D’)/d 数字 等价于[0-9]/D 非">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hihuaning.com/uploads/wz4.jpg">
+<meta property="og:updated_time" content="2019-05-19T05:08:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正则表达式">
+<meta name="twitter:description" content="_ 在程序开发中，难免会遇到需要匹配、查找、替换、判断字符串的情况发生，而这些情况有时又比较复杂，如果用纯编码方式解决，往往会浪费程序员的时间及精力。因此，学习及使用正则表达式，便成了解决这一矛盾的主要手段。_ java正则入门下面列举一些基础的概念  // 反斜杠 /t 间隔 (‘/u0009’)/n 换行 (‘/u000A’)/r 回车 (‘/u000D’)/d 数字 等价于[0-9]/D 非">
+<meta name="twitter:image" content="http://hihuaning.com/uploads/wz4.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://hihuaning.com/2015/05/07/正则表达式/">
+
+  <title> 正则表达式 | Huaning </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?246b2d7e1fa0b8b1d6f1b12a1a2727a7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Huaning</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">尽信书，不如无书</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '7JGCNByF3_sh-5UYzBxr','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                正则表达式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-07T07:01:22+00:00" content="2015-05-07">
+              2015-05-07
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/正则表达式/" itemprop="url" rel="index">
+                    <span itemprop="name">正则表达式</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/05/07/正则表达式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/07/正则表达式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox" href="/uploads/wz4.jpg" rel="gallery_cjvumz9v1002l0vllirdunq4s" itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="/uploads/wz4.jpg" itemprop="contentUrl">
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <p>_ 在程序开发中，难免会遇到需要匹配、查找、替换、判断字符串的情况发生，而这些情况有时又比较复杂，如果用纯编码方式解决，往往会浪费程序员的时间及精力。因此，学习及使用正则表达式，便成了解决这一矛盾的主要手段。_</p>
+<h3 id="java正则入门"><a href="#java正则入门" class="headerlink" title="java正则入门"></a>java正则入门</h3><p>下面列举一些基础的概念</p>
+<blockquote>
+<p>// 反斜杠<br> /t 间隔 (‘/u0009’)<br>/n 换行 (‘/u000A’)<br>/r 回车 (‘/u000D’)<br>/d 数字 等价于[0-9]<br>/D 非数字 等价于[^0-9]<br>/s 空白符号 [/t/n/x0B/f/r]<br>/S 非空白符号 [^/t/n/x0B/f/r]<br>/w 单独字符 [a-zA-Z_0-9]<br>/W 非单独字符 [^a-zA-Z_0-9]<br>/f 换页符<br>/e Escape<br>/b 一个单词的边界<br>/B 一个非单词的边界<br>/G 前一个匹配的结束</p>
+<ul>
+<li>^为限制开头<br>^java     条件限制为以Java为开头字符 </li>
+<li>$为限制结尾java$<br>条件限制为以java为结尾字符</li>
+<li>.  条件限制除/n以外任意一个单独字符java..<br> 条件限制为java后除换行外任意两个字符</li>
+<li>加入特定限制条件「[]」<br>[a-z]     条件限制在小写a to z范围中一个字符<br>[A-Z]     条件限制在大写A to Z范围中一个字符<br>[a-zA-Z] 条件限制在小写a to z或大写A to Z范围中一个字符<br>[0-9]     条件限制在小写0 to 9范围中一个字符<br>[0-9a-z] 条件限制在小写0 to 9或a to z范围中一个字符<br>[0-9[a-z]] 条件限制在小写0 to 9或a to z范围中一个字符(交集)</li>
+<li>[]中加入^后加再次限制条件「[^]」<br>[^a-z]     条件限制在非小写a to z范围中一个字符<br>[^A-Z]     条件限制在非大写A to Z范围中一个字符<br>[^a-zA-Z] 条件限制在非小写a to z或大写A to Z范围中一个字符<br>[^0-9]     条件限制在非小写0 to 9范围中一个字符<br>[^0-9a-z] 条件限制在非小写0 to 9或a to z范围中一个字符<br>[^0-9[a-z]] 条件限制在非小写0 to 9或a to z范围中一个字符(交集)<br><em>在限制条件为特定字符出现0次以上时，可以使用「</em>」<br>J<em>     0个以上J<br>.</em>     0个以上任意字符<br>J.*D     J与D之间0个以上任意字符</li>
+<li>在限制条件为特定字符出现1次以上时，可以使用「+」<br>J+     1个以上J<br>.+     1个以上任意字符<br>J.+D     J与D之间1个以上任意字符</li>
+<li>在限制条件为特定字符出现有0或1次以上时，可以使用「?」<br>JA?      J或者JA出现</li>
+<li>限制为连续出现指定次数字符「{a}」<br>J{2}     JJ<br>J{3}     JJJ<br>文字a个以上，并且「{a,}」<br>J{3,}     JJJ,JJJJ,JJJJJ,???(3次以上J并存)<br>文字a个以上，b个以下「{a,b}」<br>J{3,5}     JJJ或JJJJ或JJJJJ</li>
+<li>两者取一「|」<br>J|A     J或A<br>Java|Hello     Java或Hello</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="java中的正则表达式"><a href="#java中的正则表达式" class="headerlink" title="java中的正则表达式"></a>java中的正则表达式</h3><ul>
+<li><p>在java中使用正则表达式时，在匹配.和\是要写成\\.和\\\\，其他的特殊符号匹配时也类似，要在符号前加两个反斜杠，这是为什么呢？<br>在java中，我们写的正则表达式首先要通过String的转义，比如正则“\\.”，它用来匹配符号.，而单独符号.在正则表示匹配所有字符，如果要匹配符号.则需要进行转义，用正则里的“.”表示，在java中如果直接使用“.”,java会报(Invalid escape sequence (valid ones are \b \t \n \f \r \” \’ \\)的错误，因为在java的转义字符中没有“.”，所以我们要用“\\”来转义“\”，这样“\.”就能匹配符号.了。\\\\的问题也类似。</p>
+</li>
+<li><p>判断字符串是否表示数值</p>
+<pre><code>string.matches(&quot;[\\+-]?[0-9]*(\\.[0-9]*)?([eE][\\+-]?[0-9]+)?&quot;);
+</code></pre></li>
+</ul>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://www.360doc.com/content/12/0613/04/2664229_217802465.shtml" target="_blank" rel="noopener">理解java正则表达式怪异的\\和\\\\</a></p>
+<p><a href="http://blog.csdn.net/kdnuggets/article/details/2526588" target="_blank" rel="noopener">java正则入门</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/正则表达式/" rel="tag">#正则表达式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/07/java字节流分析/" rel="next" title="java字节流分析">
+                <i class="fa fa-chevron-left"></i> java字节流分析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/08/java字符流分析/" rel="prev" title="java字符流分析">
+                java字符流分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/05/07/正则表达式/" data-title="正则表达式" data-url="http://hihuaning.com/2015/05/07/正则表达式/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/hualun.jpeg" alt="Huaning">
+          <p class="site-author-name" itemprop="name">Huaning</p>
+          <p class="site-description motion-element" itemprop="description">hihuaning</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/samkingZ" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/HHN520" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  ZhiHu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://followada.com/" title="CodingSpace" target="_blank">CodingSpace</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leetcode.com/" title="LeetCode" target="_blank">LeetCode</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.nowamagic.net/" title="nowamagic" target="_blank">nowamagic</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.v2ex.com/" title="v2ex" target="_blank">v2ex</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ifeve.com/" title="并发编程网" target="_blank">并发编程网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#java正则入门"><span class="nav-number">1.</span> <span class="nav-text">java正则入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java中的正则表达式"><span class="nav-number">2.</span> <span class="nav-text">java中的正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huaning</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hihuaning"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

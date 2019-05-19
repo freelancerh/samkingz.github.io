@@ -1,0 +1,868 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Leetcode,动态规划,Stack,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="Given a string containing just the characters ‘(‘and ‘)’, find the length of the longest valid (well-formed) parentheses substring.For “(()”, the longest valid parentheses substring is “()”, which h">
+<meta name="keywords" content="Leetcode,动态规划,Stack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Longest Valid Parentheses [Leetcode]">
+<meta property="og:url" content="http://hihuaning.com/2015/05/09/Leetcode32/index.html">
+<meta property="og:site_name" content="Huaning">
+<meta property="og:description" content="Given a string containing just the characters ‘(‘and ‘)’, find the length of the longest valid (well-formed) parentheses substring.For “(()”, the longest valid parentheses substring is “()”, which h">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hihuaning.com/uploads/image/cover/wz6.jpg">
+<meta property="og:updated_time" content="2019-05-19T05:05:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Longest Valid Parentheses [Leetcode]">
+<meta name="twitter:description" content="Given a string containing just the characters ‘(‘and ‘)’, find the length of the longest valid (well-formed) parentheses substring.For “(()”, the longest valid parentheses substring is “()”, which h">
+<meta name="twitter:image" content="http://hihuaning.com/uploads/image/cover/wz6.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://hihuaning.com/2015/05/09/Leetcode32/">
+
+  <title> Longest Valid Parentheses [Leetcode] | Huaning </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?246b2d7e1fa0b8b1d6f1b12a1a2727a7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Huaning</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">尽信书，不如无书</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '7JGCNByF3_sh-5UYzBxr','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Longest Valid Parentheses [Leetcode]
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-09T07:01:22+00:00" content="2015-05-09">
+              2015-05-09
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/05/09/Leetcode32/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/09/Leetcode32/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox" href="/uploads/image/cover/wz6.jpg" rel="gallery_cjvumz9t7000e0vllbpt3mvg3" itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="/uploads/image/cover/wz6.jpg" itemprop="contentUrl">
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <p><br></p>
+<blockquote>
+<p>Given a string containing just the characters ‘(‘and ‘)’, find the length of the longest valid (well-formed) parentheses substring.For “(()”, the longest valid parentheses substring is “()”, which has length = 2.Another example is “)()())”, where the longest valid parentheses substring is “()()”, which has length = 4.</p>
+</blockquote>
+<p>看完题目的第一反应就是用stack来处理，因为之前用stack来判断过括号是否匹配，按子串长度从n逐步减少到1的过程来查找，第一次找到的括号匹配子串即最长的子串，然而想想当问题规模很大而且又没有括号匹配子串时，它的时间复杂度是相当大的，故此方法舍之。</p>
+<p>第二想法就是利用动态规划，自底向上来解这个问题。可以很容易地看出它的最优子结构，假设S是括号匹配的，则(S)，()S，S()，也是括号匹配的。用布尔型二维数组isValid[i][j]来表示i~j的串是否是匹配的，初始化isValid[i][i+1]，然后自底向上求解。这个方法上面的方法的复杂度好了很多，但是还是没有AC掉 TAT。</p>
+<p>之后就是看了别人的解法才AC了这道题。</p>
+<h3 id="动态规划-个人解法"><a href="#动态规划-个人解法" class="headerlink" title="动态规划(个人解法)"></a>动态规划(个人解法)</h3><hr>
+<h4 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h4><p>时间 O(N^2) 空间 O(N^2)</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>如上</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>public static int longestValidParentheses(String s) {
+    if(s==null || s.length()&lt;2){
+        return 0;
+    }
+    int len = s.length();
+    boolean[][] isValid = new boolean[len][len];
+    int max = 0;
+    /*初始化*/
+    for(int i=0; i&lt;len-1; i++){
+        if(s.charAt(i)==&apos;(&apos; &amp;&amp; s.charAt(i+1)==&apos;)&apos;){
+            isValid[i][i+1] = true;
+            max = 2;
+        }
+        else{
+            isValid[i][i+1] = false;
+        }
+    }
+    /*步长每次加2,*/
+    for(int r=3; r&lt;len; r+=2){
+        for(int i=0; i&lt;len-r; i++){
+                    /*最优子结构*/
+            if((isValid[i][i+r-2]&amp;&amp;s.charAt(i+r-1)==&apos;(&apos;&amp;&amp;s.charAt(i+r)==&apos;)&apos;) || (isValid[i+1][i+r-1]&amp;&amp;s.charAt(i)==&apos;(&apos;&amp;&amp;s.charAt(i+r)==&apos;)&apos;) || (isValid[i+2][i+r]&amp;&amp;s.charAt(i)==&apos;(&apos;&amp;&amp;s.charAt(i+1)==&apos;)&apos;)){
+                isValid[i][i+r] = true;
+                max = r+1;
+            }
+            else{
+                isValid[i][i+r] = false;
+            }
+        }
+    }
+    return max;
+}
+</code></pre><h3 id="动态规划-别人家的解法"><a href="#动态规划-别人家的解法" class="headerlink" title="动态规划(别人家的解法)"></a>动态规划(别人家的解法)</h3><hr>
+<h4 id="复杂度-1"><a href="#复杂度-1" class="headerlink" title="复杂度"></a>复杂度</h4><p>时间 O(N) 空间 O(N)</p>
+<h4 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h4><p>动态规划法将大问题化为小问题，我们不一定要一下子计算出整个字符串中最长括号对，我们可以先从后向前，一点一点计算。假设d[i]是从<strong>下标i开始</strong>到字符串结尾最长括号对长度，s[i]是字符串下标为i的括号。如果s[i-1]是左括号，如果i + d[i] + 1是右括号的话，那d[i-1] = d[i] + 1。如果不是则为0。如果s[i-1]是右括号，因为不可能有右括号开头的括号对，所以d[i-1] = 0。</p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><pre><code>    public static int longestValidParentheses(String s){
+    if(s==null || s.length()&lt;2){
+        return 0;
+    }
+    int len = s.length();
+    int[] dp = new int[len];
+    int max = 0;
+    for(int i=0; i&lt;len; i++){
+        dp[i] = 0;
+    }
+    for(int i=len-2; i&gt;-1; i--){
+        if(s.charAt(i) == &apos;(&apos;){
+            int j=i+1+dp[i+1];
+            if(j &lt; len &amp;&amp; s.charAt(j) == &apos;)&apos;){
+                dp[i] = dp[i+1]+2;
+                if(j+1 &lt; len)
+                    dp[i] += dp[j];
+                if(dp[i] &gt; max){
+                    max = dp[i];
+                }
+            }
+        }
+    }
+    return max;
+}
+</code></pre><h3 id="栈法-Stack-别人家的Stack解法"><a href="#栈法-Stack-别人家的Stack解法" class="headerlink" title="栈法 Stack(别人家的Stack解法)"></a>栈法 Stack(别人家的Stack解法)</h3><hr>
+<h4 id="复杂度-2"><a href="#复杂度-2" class="headerlink" title="复杂度"></a>复杂度</h4><p>时间 O(N) 空间 O(N)</p>
+<h4 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h4><p>用Stack的方法本质上和<a href="http://segmentfault.com/a/1190000003481208" target="_blank" rel="noopener">Valid Parentheses</a>是一样的，一个右括号能消去Stack顶上的一个左括号。不同的是，为了能够计算括号对的长度我们还需要记录括号们的下标。这样在弹出一个左括号后，我们可以根据当前坐标减去栈中上一个（也就是Pop过后的Top元素）的坐标来得到该有效括号对的长度。</p>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><pre><code> public class Solution {
+  public int longestValidParentheses(String s) {
+    Stack&lt;Parenthese&gt; stk = new Stack&lt;Parenthese&gt;();
+    int maxLen = 0;
+    for(int i = 0; i &lt; s.length(); i++){
+        //遇到左括号，将其push进栈
+        if(s.charAt(i)==&apos;(&apos;){
+            stk.push(new Parenthese(i, &apos;(&apos;));
+        } else {
+       //遇到右括号，分类讨论
+           //如果当前栈顶是左括号，则消去并计算长度
+            if(!stk.isEmpty() &amp;&amp; stk.peek().symb==&apos;(&apos;){
+                int curLen = 0;
+                stk.pop();
+                if(stk.isEmpty()){
+                    curLen = i + 1;
+                } else {
+                    curLen = i - stk.peek().indx;
+                }
+                maxLen = Math.max(maxLen, curLen);
+            } else {
+           //如果栈顶是右括号或者是空栈，则将右括号也push进栈，它的坐标将方便之后计算长度
+                stk.push(new Parenthese(i, &apos;)&apos;));
+            }
+        }
+    }
+    return maxLen;
+}
+
+public class Parenthese {
+    int indx;
+    char symb;
+    public Parenthese (int i, char s){
+        this.indx = i;
+        this.symb = s;
+    }
+}
+</code></pre><hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://segmentfault.com/a/1190000003481194" target="_blank" rel="noopener">Longest Valid Parentheses</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Leetcode/" rel="tag">#Leetcode</a>
+          
+            <a href="/tags/动态规划/" rel="tag">#动态规划</a>
+          
+            <a href="/tags/Stack/" rel="tag">#Stack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/09/StringReader源码分析/" rel="next" title="StringReader源码分析">
+                <i class="fa fa-chevron-left"></i> StringReader源码分析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/10/Reader源码分析/" rel="prev" title="Reader源码分析">
+                Reader源码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/05/09/Leetcode32/" data-title="Longest Valid Parentheses [Leetcode]" data-url="http://hihuaning.com/2015/05/09/Leetcode32/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/hualun.jpeg" alt="Huaning">
+          <p class="site-author-name" itemprop="name">Huaning</p>
+          <p class="site-description motion-element" itemprop="description">hihuaning</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/samkingZ" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/HHN520" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  ZhiHu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://followada.com/" title="CodingSpace" target="_blank">CodingSpace</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leetcode.com/" title="LeetCode" target="_blank">LeetCode</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.nowamagic.net/" title="nowamagic" target="_blank">nowamagic</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.v2ex.com/" title="v2ex" target="_blank">v2ex</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ifeve.com/" title="并发编程网" target="_blank">并发编程网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划-个人解法"><span class="nav-number">1.</span> <span class="nav-text">动态规划(个人解法)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度"><span class="nav-number">1.1.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划-别人家的解法"><span class="nav-number">2.</span> <span class="nav-text">动态规划(别人家的解法)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度-1"><span class="nav-number">2.1.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路-1"><span class="nav-number">2.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-number">2.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈法-Stack-别人家的Stack解法"><span class="nav-number">3.</span> <span class="nav-text">栈法 Stack(别人家的Stack解法)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂度-2"><span class="nav-number">3.1.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路-2"><span class="nav-number">3.2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-2"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huaning</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hihuaning"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,790 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="SSH,Linux,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="序言说到SSH，我想一般的人首先想到的就是java web的SSH三大框架吧。我刚开始也是如此，在玩github时也用过SSH，但是不知其所以然，在学习了Linux后，我认识到了SSH还有另种含义–Secure Shell。通过SSH我们可以远程登录到Linux服务器，因为在传输过程中进行了加密处理，其安全性比Telnet和Pop要高。本文默认你在本地机器上安装了SSH client，在远程机器上">
+<meta name="keywords" content="SSH,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH基本用法">
+<meta property="og:url" content="http://hihuaning.com/2015/08/19/SSH基本用法/index.html">
+<meta property="og:site_name" content="Huaning">
+<meta property="og:description" content="序言说到SSH，我想一般的人首先想到的就是java web的SSH三大框架吧。我刚开始也是如此，在玩github时也用过SSH，但是不知其所以然，在学习了Linux后，我认识到了SSH还有另种含义–Secure Shell。通过SSH我们可以远程登录到Linux服务器，因为在传输过程中进行了加密处理，其安全性比Telnet和Pop要高。本文默认你在本地机器上安装了SSH client，在远程机器上">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hihuaning.com/uploads/image/cover/lb19.jpg">
+<meta property="og:updated_time" content="2019-05-18T15:02:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSH基本用法">
+<meta name="twitter:description" content="序言说到SSH，我想一般的人首先想到的就是java web的SSH三大框架吧。我刚开始也是如此，在玩github时也用过SSH，但是不知其所以然，在学习了Linux后，我认识到了SSH还有另种含义–Secure Shell。通过SSH我们可以远程登录到Linux服务器，因为在传输过程中进行了加密处理，其安全性比Telnet和Pop要高。本文默认你在本地机器上安装了SSH client，在远程机器上">
+<meta name="twitter:image" content="http://hihuaning.com/uploads/image/cover/lb19.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://hihuaning.com/2015/08/19/SSH基本用法/">
+
+  <title> SSH基本用法 | Huaning </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?246b2d7e1fa0b8b1d6f1b12a1a2727a7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Huaning</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">尽信书，不如无书</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '7JGCNByF3_sh-5UYzBxr','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SSH基本用法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-19T14:07:30+00:00" content="2015-08-19">
+              2015-08-19
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/19/SSH基本用法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/19/SSH基本用法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox" href="/uploads/image/cover/lb19.jpg" rel="gallery_cjvumz9tl000x0vllceaadupt" itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="/uploads/image/cover/lb19.jpg" itemprop="contentUrl">
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <h3 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h3><p>说到SSH，我想一般的人首先想到的就是java web的SSH三大框架吧。我刚开始也是如此，在玩github时也用过SSH，但是不知其所以然，在学习了Linux后，我认识到了SSH还有另种含义–<a href="http://baike.baidu.com/link?url=EThriZvfnEk2o_seoXpmG2Hwi63rhmo6aIWvUJ1mvJWnVS62Vf5qTom1nkaiBUVdz3GdoadVafh_3I9S3PWCo5aWahseHzL1hCKD4UvQOtW" target="_blank" rel="noopener">Secure Shell</a>。通过SSH我们可以远程登录到Linux服务器，因为在传输过程中进行了加密处理，其安全性比Telnet和Pop要高。<br>本文默认你在本地机器上安装了SSH client，在远程机器上安装了SSH server。行首local$提示符代表client端，remote$代表server端。</p>
+<h3 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h3><pre><code>ssh user@remote -p port
+</code></pre><ul>
+<li>user 是你在远程机器上的用户名，如果不指定的话默认为当前用户</li>
+<li>remote 是远程机器的地址，可以是 IP，域名，或者是后面会提到的别名</li>
+<li>port 是 SSH Server 监听的端口，如果不指定的话就为默认值 22</li>
+</ul>
+<p>执行完这条指令后，ssh会要求你输入密码，输入密码后即会登录到远程服务器</p>
+<h3 id="使用-SSH-钥匙登录"><a href="#使用-SSH-钥匙登录" class="headerlink" title="使用 SSH 钥匙登录"></a>使用 SSH 钥匙登录</h3><p>如果我们经常需要登录到远程服务器，然而每次都要输入密码，这样会比较烦。在这里我们可以配置SSH钥匙来实现免密码登录。</p>
+<pre><code>ssh-keygen
+</code></pre><p>在客户端执行这条命令可生成SSH钥匙，一路按回车。在<code>~/.ssh/id_rsa.pub</code>文件里存放了公匙，在<code>~/.ssh/id_rsa</code>文件里存放了密匙。现在我们可以把公匙文件里的代码追加到远程服务器里的<code>.ssh/authorized_keys</code>文件里。完成后ssh登录远程服务器就不需要密码了。<br>生成密匙后，我们也可以用<code>ssh-copy-id user@remote -p port</code>命令来放置公匙到远程服务器中，原理和上面是一个意思。<br><strong>PS：</strong>想想我们用git时不也经常是用SSH钥匙来登录github的吗。</p>
+<h3 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h3><p>虽然我们配置了密匙不要输入密码了，但是我还是要输入<code>ssh user@remote -p port</code>命令的啊，毕竟服务器多了不容易记啊。幸好我们可以配置别名，在<code>~/.ssh/config</code>文件里追加一下内容</p>
+<pre><code>Host centos
+    HostName remote
+    User user
+    Port port
+</code></pre><p>保存之后，我们就可以直接使用<code>ssh centos</code>来登录。如果没有config文件的话，我们可以新建一个。</p>
+<h3 id="SCP命令"><a href="#SCP命令" class="headerlink" title="SCP命令"></a>SCP命令</h3><p>不同的Linux之间copy文件常用有3种方法：</p>
+<ul>
+<li>ftp，也就是其中一台Linux安装ftp Server，这样可以另外一台使用ftp的client程序来进行文件的copy。</li>
+<li>采用samba服务，类似Windows文件copy 的方式来操作，比较简洁方便。</li>
+<li>利用scp命令来进行文件复制。</li>
+</ul>
+<p>scp是有Security的文件copy，基于ssh登录。操作起来比较方便，比如要把当前一个文件copy到远程另外一台主机上，可以如下命令：</p>
+<pre><code>scp /home/daisy/full.tar.gz   user@remote:/home/root
+</code></pre><p>然后会提示你输入另外那台远程主机的user的登录密码，接着就开始copy了。<br>如果想反过来操作，把文件从远程主机copy到当前系统，也很简单：</p>
+<pre><code>scp user@remote:/home/root/full.tar.gz  home/daisy/full.tar.gz
+</code></pre><p>如果是复制的文件夹的话添加一个-r选项。<br>几个用的参数 :<br> -v 和大多数 linux 命令中的 -v 意思一样 , 用来显示进度 . 可以用来查看连接 , 认证 , 或是配置错误 .<br> -C 使能压缩选项 .<br>-P 选择端口 . 注意 -p 已经被 rcp 使用 .<br>-4 强行使用 IPV4 地址 .<br> -6 强行使用 IPV6 地址 .</p>
+<h3 id="使程序在后台运行"><a href="#使程序在后台运行" class="headerlink" title="使程序在后台运行"></a>使程序在后台运行</h3><p>如果我们退出了SSH程序，Linux会马上kill掉我们的程序。如果我们有长时间运行的程序，而我们的SSH程序又要关掉怎么办呢，如何保持我们的程序一直进行下去呢。tmux解决了我们这个问题，tmux是一个会话管理程序，他会保持程序一直运行着。安装完tmux后执行</p>
+<pre><code>remote$ tmux
+</code></pre><p>这样我们就进入到了 tmux管理的会话中，之后你再运行任何东西都不会因为你退出 ssh而被杀死。要暂时离开这个会话，可以先按下 ctrl+b再按下 d。要恢复之前的会话，只需要执行</p>
+<pre><code>remote$ tmux attach
+</code></pre><p>tmux还能管理多个窗口、水平竖直切分、复制粘贴等等，我们可以看看<a href="http://blog.jobbole.com/87584/" target="_blank" rel="noopener">tmux速成教程</a>来入门。</p>
+<h3 id="putty"><a href="#putty" class="headerlink" title="putty"></a>putty</h3><p>在windows系统上，我们可以用<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" target="_blank" rel="noopener">putty</a>作为SSH client。putty配套的工具都很有用。</p>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://abcdabcd987.com/ssh/" target="_blank" rel="noopener">SSH 基本用法</a><br><a href="http://www.cnblogs.com/hitwtx/archive/2011/11/16/2251254.html" target="_blank" rel="noopener">scp命令</a><br><a href="http://blog.csdn.net/zi_jin/article/details/3722239" target="_blank" rel="noopener">SSH 的详细使用方法</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SSH/" rel="tag">#SSH</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/15/MySQL基础教程/" rel="next" title="MySQL基础教程">
+                <i class="fa fa-chevron-left"></i> MySQL基础教程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/20/常用域名记录解释/" rel="prev" title="常用域名记录解释">
+                常用域名记录解释 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/19/SSH基本用法/" data-title="SSH基本用法" data-url="http://hihuaning.com/2015/08/19/SSH基本用法/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/hualun.jpeg" alt="Huaning">
+          <p class="site-author-name" itemprop="name">Huaning</p>
+          <p class="site-description motion-element" itemprop="description">hihuaning</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/samkingZ" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/HHN520" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  ZhiHu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://followada.com/" title="CodingSpace" target="_blank">CodingSpace</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leetcode.com/" title="LeetCode" target="_blank">LeetCode</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.nowamagic.net/" title="nowamagic" target="_blank">nowamagic</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.v2ex.com/" title="v2ex" target="_blank">v2ex</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ifeve.com/" title="并发编程网" target="_blank">并发编程网</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单用法"><span class="nav-number">2.</span> <span class="nav-text">简单用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-SSH-钥匙登录"><span class="nav-number">3.</span> <span class="nav-text">使用 SSH 钥匙登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置别名"><span class="nav-number">4.</span> <span class="nav-text">配置别名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SCP命令"><span class="nav-number">5.</span> <span class="nav-text">SCP命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使程序在后台运行"><span class="nav-number">6.</span> <span class="nav-text">使程序在后台运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#putty"><span class="nav-number">7.</span> <span class="nav-text">putty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huaning</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hihuaning"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
